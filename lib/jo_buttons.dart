@@ -32,6 +32,12 @@ class _JOSmallButtonState extends State<JOSmallButton> {
         ? InkWell(
             onTap: () {
               widget.onClick.call();
+              if (widget.route != null && widget.route!.isNotEmpty) {
+                Navigator.pushNamed(
+                  context,
+                  widget.route ?? "",
+                );
+              }
             },
             child: Container(
               width: 100.0,
