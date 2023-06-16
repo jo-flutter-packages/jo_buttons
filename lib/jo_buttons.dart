@@ -58,19 +58,20 @@ class _JOSmallButtonState extends State<JOSmallButton> {
                                 color: Theme.of(context).splashColor,
                               ),
                         widget.title != null
-                            ? SizedBox(
+                            ? const SizedBox(
                                 width: 10.0,
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                         widget.title != null
                             ? Text(
                                 widget.title ?? "",
                                 style: TextStyle(
-                                  color: Theme.of(context).backgroundColor,
+                                  color:
+                                      Theme.of(context).colorScheme.background,
                                   fontWeight: FontWeight.bold,
                                 ),
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                       ],
                     )
                   : Row(
@@ -78,12 +79,12 @@ class _JOSmallButtonState extends State<JOSmallButton> {
                         Icon(
                           Icons.disabled_visible,
                           size: 25.0,
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).colorScheme.background,
                         ),
                         Text(
                           "",
                           style: TextStyle(
-                            color: Theme.of(context).backgroundColor,
+                            color: Theme.of(context).colorScheme.background,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -126,5 +127,81 @@ class _JOFloatingButtonState extends State<JOFloatingButton> {
         onTap: () {
           widget.actionCallback.call();
         });
+  }
+}
+
+class JOBigButton extends StatefulWidget {
+  const JOBigButton({
+    Key? key,
+    required this.callback,
+    this.route,
+    required this.title,
+    required this.description,
+    required this.iconRight,
+    this.iconLeft,
+  }) : super(key: key);
+  final Function() callback;
+  final String? route;
+  final String title;
+  final String description;
+  final IconData iconRight;
+  final IconData? iconLeft;
+  @override
+  State<JOBigButton> createState() => _JOBigButtonState();
+}
+
+class _JOBigButtonState extends State<JOBigButton> {
+  bool inProgress = false;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20.0,
+          vertical: 15.0,
+        ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(
+              widget.iconRight,
+              size: 50.0,
+              color: Theme.of(context).focusColor,
+            ),
+            Flexible(
+              flex: 2,
+              child: Text.rich(
+                TextSpan(
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.background),
+                  children: [
+                    TextSpan(text: "${widget.title}\n"),
+                    TextSpan(
+                      text: widget.description,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            inProgress
+                ? CircularProgressIndicator(
+                    color: Theme.of(context).colorScheme.background,
+                  )
+                : Icon(
+                    widget.iconLeft ?? Icons.ads_click_rounded,
+                    size: 25.0,
+                    color: Theme.of(context).colorScheme.background,
+                  ),
+          ],
+        ),
+      ),
+      onTap: () {},
+    );
   }
 }
