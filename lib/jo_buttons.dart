@@ -209,7 +209,12 @@ class _JOBigButtonState extends State<JOBigButton> {
           ],
         ),
       ),
-      onTap: () {},
+      onTap: () {
+        widget.callback.call();
+        if (widget.route != null) {
+          Navigator.of(context).pushNamed(widget.route ?? "");
+        }
+      },
     );
   }
 }
